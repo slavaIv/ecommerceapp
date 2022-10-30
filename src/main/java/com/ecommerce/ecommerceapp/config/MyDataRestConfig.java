@@ -10,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import com.ecommerce.ecommerceapp.entity.Product;
 import com.ecommerce.ecommerceapp.entity.ProductCategory;
 
-
 @Configuration //Spring-Boot scans by initialization
 public class MyDataRestConfig implements RepositoryRestConfigurer {
 
