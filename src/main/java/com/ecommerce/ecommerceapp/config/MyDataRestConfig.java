@@ -1,6 +1,13 @@
 package com.ecommerce.ecommerceapp.config;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.EntityManager;
+import javax.persistence.metamodel.EntityType;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
@@ -12,6 +19,12 @@ import com.ecommerce.ecommerceapp.entity.ProductCategory;
 
 @Configuration //Spring-Boot scans by initialization
 public class MyDataRestConfig implements RepositoryRestConfigurer {
+
+    private EntityManager entityManager;
+
+    public MyDataRestConfig(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
@@ -29,6 +42,28 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
                 .withCollectionExposure(((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions)));
 
         RepositoryRestConfigurer.super.configureRepositoryRestConfiguration(config, cors);
+
+        exposeId(config);
+        // config.exposeIdsFor(ProductCategory.class);
+    }
+
+    //get the id from the product_category table and put it to the rest api
+    private void exposeId(RepositoryRestConfiguration config) {
+
+        // get all the entity classes from the entity manager and put them in a list
+        Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
+
+        // create an array of the entity types
+        List<Class> entityClasses = new ArrayList<>();
+
+        // get the entity types
+        for(EntityType tempEntityType: entities) {
+            entityClasses.add(tempEntityType.getJavaType());
+        }
+
+        // expose the entity ids for the array of entity
+        Class[] domainTypes = entityClasses.toArray(new Class[0]);
+        config.exposeIdsFor(domainTypes);
     }
     
 }
