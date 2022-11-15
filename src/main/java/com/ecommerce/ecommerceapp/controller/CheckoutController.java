@@ -1,6 +1,5 @@
 package com.ecommerce.ecommerceapp.controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +9,7 @@ import com.ecommerce.ecommerceapp.dto.Purchase;
 import com.ecommerce.ecommerceapp.dto.PurchaseResponse;
 import com.ecommerce.ecommerceapp.service.CheckoutService;
 
-@CrossOrigin("http://localhost:4200")
+
 @RestController
 @RequestMapping("/api/checkout")
 
